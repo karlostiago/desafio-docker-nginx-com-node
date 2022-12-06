@@ -6,6 +6,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     container_name: app
+    entrypoint: dockerize -wait tcp://mysql_db:3306 -timeout 20s docker-entrypoint.sh node index.js
     restart: always
     volumes:
       - ./node:/usr/src/app
@@ -28,7 +29,7 @@ services:
       - MYSQL_DATABASE=nodedb
     ports:
       - "3306:3306"
-
+    
   nginx:
       build: 
         context: ./nginx
